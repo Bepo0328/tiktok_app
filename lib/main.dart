@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:tiktok_app/constants.dart';
 import 'package:tiktok_app/controllers/auth_controller.dart';
 import 'package:tiktok_app/views/screens/auth/login_screen.dart';
-import 'package:tiktok_app/views/screens/auth/sign_up_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
