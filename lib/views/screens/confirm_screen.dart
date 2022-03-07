@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_app/controllers/upload_video_controller.dart';
 import 'package:tiktok_app/views/widgets/text_input_field.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 
 class ConfirmScreen extends StatefulWidget {
@@ -25,6 +26,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   UploadVideoController uploadVideoController =
       Get.put(UploadVideoController());
 
+  late Subscription _subscription;
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +38,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     controller.play();
     controller.setVolume(1);
     controller.setLooping(true);
+
+    _subscription = VideoCompress.compressProgress$.subscribe((progress) {
+      debugPrint('progress: $progress');
+    });
   }
 
   @override
@@ -43,6 +50,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     _songController.dispose();
     _captionController.dispose();
     controller.dispose();
+    _subscription.unsubscribe();
   }
 
   @override

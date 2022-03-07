@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,14 +8,20 @@ import 'package:video_compress/video_compress.dart';
 
 class UploadVideoController extends GetxController {
   _compressVideo(String videoPath) async {
-    final compressVideo = await VideoCompress.compressVideo(
-      videoPath,
-      quality: VideoQuality.MediumQuality,
-    );
-    if (compressVideo == null) {
-      return File(videoPath);
-    } else {
-      return compressVideo.file;
+    try {
+      final compressVideo = await VideoCompress.compressVideo(
+        videoPath,
+        quality: VideoQuality.MediumQuality,
+      );
+      if (compressVideo != null) {
+        return compressVideo.file;
+      }
+    } catch (err) {
+      Get.snackbar(
+        'Error Compress Video',
+        err.toString(),
+      );
+      debugPrint('Error Compress Video: $err');
     }
   }
 
@@ -78,7 +83,7 @@ class UploadVideoController extends GetxController {
         'Error Uploading Video',
         err.toString(),
       );
-      debugPrint(err.toString());
+      debugPrint('Error Uploading Video: $err');
     }
   }
 }
