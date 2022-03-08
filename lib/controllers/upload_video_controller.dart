@@ -78,6 +78,7 @@ class UploadVideoController extends GetxController {
           .doc('Video $len')
           .set(video.toJson());
       Get.back();
+      await VideoCompress.deleteAllCache();
     } catch (err) {
       Get.snackbar(
         'Error Uploading Video',
